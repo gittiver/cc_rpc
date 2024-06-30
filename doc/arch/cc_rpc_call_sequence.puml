@@ -1,0 +1,60 @@
+@startuml
+
+title overall RPC call sequence
+
+actor i_client as "Custom Interface Client"
+participant rpc_client_stub
+participant rpc_client_transport
+participant rpc_server_transport
+participant rpc_server_stub
+actor i_server as "Custom Interface Server"
+
+i_client -> rpc_client_stub: call RPC method
+
+activate rpc_client_stub
+rpc_client_stub->rpc_client_stub: rpc_request = pack(parameters)
+rpc_client_stub-> rpc_client_transport: send(rpc_request)
+
+activate rpc_client_transport
+rpc_client_transport-->rpc_server_transport: transport over wire
+deactivate rpc_client_transport
+
+activate rpc_server_transport
+rpc_server_transport->rpc_server_stub: receive(rpc_request)
+deactivate rpc_server_transport
+
+activate rpc_server_stub
+rpc_server_stub->rpc_server_stub: params = unpack(rpc_request)
+rpc_server_stub->i_server: call with params
+
+i_server->i_server: execute function call
+i_server->rpc_server_stub: returns with ret_val
+
+rpc_server_stub->rpc_server_stub: rpc_response = pack(ret_val)
+rpc_server_stub->rpc_server_transport: send(rpc_response)
+deactivate rpc_server_stub
+
+activate rpc_server_transport
+rpc_server_transport-->rpc_client_transport: transport over wire
+deactivate rpc_server_transport
+
+activate rpc_client_transport
+rpc_client_stub<- rpc_client_transport: receive(rpc_response)
+deactivate rpc_client_transport
+
+rpc_client_stub->rpc_client_stub: ret_value = unpack(rpc_response)
+i_client <-- rpc_client_stub: return ret_val to caller
+deactivate rpc_client_stub
+
+legend
+
+this sequence diagram assumes blocking synchron call on rpc client stub.
+
+with a waiting mechanism this activations could be shortened,
+even on RPC calls.
+
+handling of errors is not included in this diagram.
+
+end legend
+
+@enduml
