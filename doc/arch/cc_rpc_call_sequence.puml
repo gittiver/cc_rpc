@@ -13,7 +13,7 @@ i_client -> rpc_client_stub: call RPC method
 
 activate rpc_client_stub
 rpc_client_stub->rpc_client_stub: rpc_request = pack(parameters)
-rpc_client_stub-> rpc_client_transport: send(rpc_request)
+rpc_client_stub-> rpc_client_transport: send(method_id,rpc_request)
 
 activate rpc_client_transport
 rpc_client_transport-->rpc_server_transport: transport over wire
@@ -39,7 +39,7 @@ rpc_server_transport-->rpc_client_transport: transport over wire
 deactivate rpc_server_transport
 
 activate rpc_client_transport
-rpc_client_stub<- rpc_client_transport: receive(rpc_response)
+rpc_client_stub<- rpc_client_transport: receive(method_id,rpc_response)
 deactivate rpc_client_transport
 
 rpc_client_stub->rpc_client_stub: ret_value = unpack(rpc_response)

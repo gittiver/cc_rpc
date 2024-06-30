@@ -25,7 +25,9 @@ find_program(MAKEINDEX NAMES makeindex )
 
 set(DOXYGEN_HAVE_DOT YES)
 set(DOXYGEN_GENERATE_LATEX YES)
-set(DOXYGEN_PLANTUML_JAR_PATH ${CMAKE_CURRENT_SOURCE_DIR}/tools/plantuml-1.2022.7.jar)
+set(DOXYGEN_PLANTUML_JAR_PATH /opt/local/share/java/plantuml/plantuml.jar)
+#${CMAKE_CURRENT_SOURCE_DIR}/tools/plantuml-lgpl-1.2024.5.jar)
+#set(DOXYGEN_PLANTUML_JAR_PATH {CMAKE_CURRENT_SOURCE_DIR}/tools/plantuml-1.2023.2.jar)
 
 add_subdirectory(doc)
 

@@ -1,0 +1,94 @@
+@startuml
+
+title cc_rpc building blocks client
+
+
+'rpc_client <|-- rpc_client_interface_impl
+
+package ClientRPC {
+
+
+class rpc_client {
++rpc_client( string transport_url, interface_id )
+#send( method_Id, rpc_request* )
+#receive( method_Id, rpc_response* )
+#pack_param( param_type, param_value, rpc_request* )
+#unpack_return( return_type, rpc_response*, return_value*)
+-interface_id_t interface_id
+-std::shared_ptr<rpc_client_transport> pTransport;
+}
+
+class rpc_request
+
+class rpc_response
+
+}
+
+note top of rpc_client
+implements base functionality
+end note
+
+
+class rpc_client_stub <Interface> {
++rpc_client_stub( string transport_url, interface_id )
++Interface* interface()
+-Interface* pImplInterface
+}
+
+note top of rpc_client_stub
+acts as templated instance class 
+
+can be used as:
+rpc_client_stub<Interface> rpc_client("http:/localhost/api_interface","Interface");
+rval = rpc_client->interface()->method1(...);
+end note
+
+interface Interface {
+    return_type1 method1(param1, ..., param_n)
+    return_type2 method2(param1, ...)
+}
+
+note right of Interface
+a sample of a domain specific RPC interface
+end Note
+
+class rpc_client_interface_impl<Interface> {
++rpc_client_interface_impl( string transport_url, interface_id )
+
++return_type1 method1(param1, ..., param_n)
++return_type2 method2(param1, ...)
+
+}
+rpc_client_stub *- rpc_client_interface_impl: Interface Implementation
+
+note right of rpc_client_interface_impl
+hidden implementation of rpc client,
+not visible to users of stub
+
+the method implementations:
+- pack parameters into rpc_request
+- send with pTransport a rpc_request
+  with interface_id and method_id
+- wait for rpc_response
+- decode return value from it
+- return return value
+end note
+
+rpc_client <|----- rpc_client_interface_impl
+Interface <|--- rpc_client_interface_impl
+
+package ClientTransport {
+class rpc_client_transport {
+rpc_client_transport( string transport_url )
++register_client(interface_id,rpc_client)
++send( interface_id, method_Id, rpc_request*)
+-receive( interface_id, method_Id, rpc_response* )
+
+-std::map<interface_id,rpc_client*> rpc_clients
+}
+}
+
+rpc_client *- rpc_client_transport
+rpc_client_transport *- rpc_client: clients
+
+@enduml

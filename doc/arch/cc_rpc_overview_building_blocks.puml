@@ -2,30 +2,30 @@
 
 title cc_rpc building blocks overview
 actor Client as "domain specific \nclient interface"
-interface ClientStub
-component ClientRPC <<library>>
-interface IClientTransport
-component ClientTransport <<library>>
+interface rpc_client_stub
+component ClientRPC 
+interface rpc_client_transport
+component ClientTransport 
 component HttpClientLib <<external,library>>
 
-component ServerTransport <<library>>
+component ServerTransport 
 interface IServerTransport 
 component HttpServerLib <<external,library>>
-component ServerRPC <<library>>
+component ServerRPC
 interface ServerStub
 
-Client --( ClientStub
-ClientStub -- ClientRPC
-ClientRPC--(IClientTransport
+Client --( rpc_client_stub
+rpc_client_stub -- ClientRPC
+ClientRPC--(rpc_client_transport
 ClientTransport .down.> HttpClientLib : use
-IClientTransport -- ClientTransport
+rpc_client_transport -- ClientTransport
 
 IServerTransport--ServerTransport
 ServerRPC--(IServerTransport
-ServerStub--ServerRPC
+ServerStub)--ServerRPC
 actor Server as "domain specific \n interface server" 
 
-Server<--ServerStub
+Server -- ServerStub
 
 ServerTransport .down.> HttpServerLib : use
 HttpClientLib <.> HttpServerLib: wire transport
