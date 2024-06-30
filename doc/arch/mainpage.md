@@ -304,6 +304,11 @@ following white box template. It contains
 
 ***&lt;Overview Diagram&gt;***
 
+```plantuml
+!include cc_rpc_overview_building_blocks.puml
+```
+
+
 Motivation
 
 :   *&lt;text explanation&gt;*
@@ -432,6 +437,10 @@ Runtime View
 ============
 \todo Runtime View
 
+```plantuml
+!include cc_rpc_call_sequence.puml
+```
+
 **Contents.**
 
 The runtime view describes concrete behavior and interactions of the
@@ -476,14 +485,18 @@ There are many notations for describing scenarios, e.g.
 
 -   …
 
+
 &lt;Runtime Scenario 1&gt;
 --------------------------
+
+
 
 -   *&lt;insert runtime diagram or textual description of the
     scenario&gt;*
 
 -   *&lt;insert description of the notable aspects of the interactions
     between the building block instances depicted in this diagram.&gt;*
+
 
 &lt;Runtime Scenario 2&gt; 
 --------------------------
