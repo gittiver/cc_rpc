@@ -6,12 +6,12 @@ set(DOC_TARGET_NAME arch)
 
 doxygen_add_docs( ${DOC_TARGET_NAME}
                   mainpage.md
-                  ALL
+                  
                   COMMENT "Generate ${DOXYGEN_PROJECT_NAME}"
 )
 
 add_custom_target( ${DOC_TARGET_NAME}_pdf
-                   ALL
+                   
                    COMMENT "Generating ${DOXYGEN_PROJECT_NAME} pdf"
                    COMMAND ${PDFLATEX}  -shell-escape refman.tex
                    COMMAND ${MAKEINDEX} refman.idx

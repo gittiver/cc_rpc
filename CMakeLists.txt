@@ -26,20 +26,19 @@ find_program(MAKEINDEX NAMES makeindex )
 set(DOXYGEN_HAVE_DOT YES)
 set(DOXYGEN_GENERATE_LATEX YES)
 set(DOXYGEN_PLANTUML_JAR_PATH /opt/local/share/java/plantuml/plantuml.jar)
-#${CMAKE_CURRENT_SOURCE_DIR}/tools/plantuml-lgpl-1.2024.5.jar)
-#set(DOXYGEN_PLANTUML_JAR_PATH {CMAKE_CURRENT_SOURCE_DIR}/tools/plantuml-1.2023.2.jar)
 
 add_subdirectory(doc)
 
 # add the executables
-add_library(example_client src/interfaces.hpp src/example_client.hpp src/example_client.cpp)
-add_library(example_server src/interfaces.hpp src/example_server.cpp)
+add_library(rpc_client src/rpc_client/cc_rpc_client.cpp src/rpc_client/cc_rpc_client.hpp src/rpc_client/rpc_client_tranport.cpp src/rpc_client/rpc_client_tranport.hpp)
+#add_library(example_server src/example_interface.hpp)
 
-add_executable(client src/client_main.cpp)
-target_link_libraries(client PRIVATE example_client)
+add_executable(client src/client_main.cpp
+        src/example_rpc_client.cpp)
+target_link_libraries(client PRIVATE rpc_client)
 
 add_executable(server src/server_main.cpp)
-target_link_libraries(server PRIVATE example_server)
+#target_link_libraries(server PRIVATE example_server)
 
 #add_library(cc_rpc_common src/interfaces.hpp)
 

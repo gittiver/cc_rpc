@@ -1,5 +1,5 @@
 #include "cc_rpc.hpp"
-#include "interfaces.hpp"
+#include "example_interface.hpp"
 
 int main(int argc, char* argv[]) {
   puts("server");

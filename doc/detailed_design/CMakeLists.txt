@@ -7,12 +7,12 @@ set(DOC_TARGET_NAME detailed_design)
 doxygen_add_docs( ${DOC_TARGET_NAME}
   .
   ${CMAKE_CURRENT_SOURCE_DIR}/../../src
-                  ALL
+                  
                   COMMENT "Generate ${DOXYGEN_PROJECT_NAME}"
 )
 
 add_custom_target( ${DOC_TARGET_NAME}_pdf
-                   ALL
+                   
                    COMMENT "Generating ${DOXYGEN_PROJECT_NAME} pdf"
                    COMMAND ${PDFLATEX}  -shell-escape refman.tex
                    COMMAND ${MAKEINDEX} refman.idx
